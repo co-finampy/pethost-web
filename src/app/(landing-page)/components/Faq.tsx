@@ -5,7 +5,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import { Card, CardContent } from "@/components/ui/card";
+import {CardContent } from "@/components/ui/card";
 import { Rubik_Mono_One } from "next/font/google";
 import imageFaq from "../../public/images/image-faq.png";
 
@@ -49,17 +49,17 @@ export default function Faq() {
   return (
     <div className="max-w-6xl mx-auto p-2 mt-8">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-        <Card>
-          <CardContent className="p-6 overflow-hidden">
+        <div>
+          <CardContent className="p-2 overflow-hidden relative">
             <Image
               src={imageFaq}
               alt="Happy dog lying on the ground"
               width={600}
               height={400}
-              className="w-full h-auto max-h-96 object-cover rounded-lg"
+              className="w-full h-auto object-cover rounded-lg"
             />
           </CardContent>
-        </Card>
+        </div>
         <div>
           <CardContent className="p-6">
             <span className={"text-2xl font-bold mb-4 " + rubikMono.className}>
