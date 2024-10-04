@@ -1,3 +1,4 @@
+import BlogCards from "./components/BlogCards";
 import { CarouselDemo } from "./components/Carrousel";
 import Faq from "./components/Faq";
 import Footer from "./components/Footer";
@@ -9,6 +10,7 @@ export default function Home() {
     <>
     <Navbar />
     <CarouselDemo />
+    <BlogCards />
     <Faq />
     <Footer />
     </>
