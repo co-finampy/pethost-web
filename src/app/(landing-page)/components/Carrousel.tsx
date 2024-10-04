@@ -13,7 +13,7 @@ import petImage1 from '../../public/images/image1.jpg'
 import petImage2 from '../../public/images/image2.jpg'
 import petImage3 from '../../public/images/image3.jpg'
 
-export function CarouselDemo() {
+export function CarouselHero() {
   const images = [
     petImage1,
     petImage2,
@@ -21,7 +21,7 @@ export function CarouselDemo() {
   ]
 
   return (
-    <Carousel className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <Carousel className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 overflow-x-hidden">
       <CarouselContent>
         {images.map((image, index) => (
           <CarouselItem key={index}>

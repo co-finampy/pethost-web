@@ -5,14 +5,8 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import {CardContent } from "@/components/ui/card";
-import { Rubik_Mono_One } from "next/font/google";
+import { CardContent } from "@/components/ui/card";
 import imageFaq from "../../public/images/image-faq.png";
-
-const rubikMono = Rubik_Mono_One({
-  subsets: ["latin"],
-  weight: ["400"],
-});
 
 const faqItems = [
   {
@@ -45,7 +39,7 @@ const faqItems = [
   },
 ];
 
-export default function Faq() {
+export function Faq() {
   return (
     <div className="max-w-6xl mx-auto p-2 mt-24">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -62,7 +56,7 @@ export default function Faq() {
         </div>
         <div>
           <CardContent className="p-6">
-            <span className={"text-3xl font-bold mb-4 " + rubikMono.className}>
+            <span className="text-3xl font-bold mb-4">
               Posso te ajudar?
             </span>
             <Accordion type="single" collapsible className="w-full">
