@@ -47,7 +47,7 @@ const faqItems = [
 
 export default function Faq() {
   return (
-    <div className="max-w-6xl mx-auto p-2 mt-8">
+    <div className="max-w-6xl mx-auto p-2 mt-14">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <div>
           <CardContent className="p-2 overflow-hidden relative">
