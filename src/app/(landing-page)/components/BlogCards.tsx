@@ -43,8 +43,8 @@ const items = [
 
 export default function BlogCards() {
   return (
-    <div className="max-w-6xl mx-auto pt-4 pb-4 mt-28 mb-28">
-      <h2 className={"text-2xl font-bold mb-6 " + rubikMono.className}>Conforto e Segurança para Seu Pet</h2>
+    <div className="max-w-6xl mx-auto pt-4 pb-4 mt-32 mb-28">
+      <h2 className={"text-3xl font-bold mb-6 " + rubikMono.className}>Conforto e Segurança <br /> para Seu Pet</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7">
         {items.map((item, index) => (
           <Card key={index} className="relative overflow-hidden rounded-lg shadow-md">
