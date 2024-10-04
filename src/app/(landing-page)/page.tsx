@@ -1,3 +1,4 @@
+import BlogCards from "./components/BlogCards";
 import Beneficios from "./components/Beneficios";
 import { CarouselDemo } from "./components/Carrousel";
 import ComoFunciona from "./components/Comofunciona";
@@ -11,8 +12,9 @@ export default function Home() {
     <>
     <Navbar />
     <CarouselDemo />
-    <ComoFunciona />
     <Beneficios/>
+    <ComoFunciona />
+    <BlogCards />
     <Faq />
     <Footer />
     </>

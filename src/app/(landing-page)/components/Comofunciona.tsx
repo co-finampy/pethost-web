@@ -1,12 +1,18 @@
 import { Play, CheckSquare, Coffee, Star } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { Rubik_Mono_One } from "next/font/google";
+
+const rubikMono = Rubik_Mono_One({
+  subsets: ["latin"],
+  weight: ["400"],
+});
 
 export default function Component() {
   return (
-    <div className="max-w-6xl mx-auto p-6">
+    <div className="max-w-6xl ml-auto mr-auto p-6 mt-44">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="flex flex-col justify-between md:pr-8">
-          <h2 className="text-3xl font-bold mb-4">Como funciona?</h2>
+          <h2 className={"text-3xl font-bold mb-4 " + rubikMono.className}>Como funciona?</h2>
           <Button variant="ghost" className="flex items-center text-sm justify-start px-0">
             <Play className="w-4 h-4 mr-2" />
             Assistir vídeo
