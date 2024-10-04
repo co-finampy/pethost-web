@@ -2,14 +2,9 @@
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Menu } from "lucide-react";
-import { Rubik_Mono_One } from "next/font/google";
 import Link from "next/link";
 import { useState } from "react";
 
-const rubikMono = Rubik_Mono_One({
-  subsets: ["latin"],
-  weight: ['400'],
-});
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -25,7 +20,7 @@ export function Navbar() {
       <div className="flex justify-between h-16">
         <div className="flex items-center flex-shrink-0">
           <Link href="/" className="flex items-center">
-            <span className={"text-xl font-bold text-gray-900 " + rubikMono.className}>
+            <span className="text-xl font-bold text-gray-900">
               PetHost
             </span>
           </Link>
