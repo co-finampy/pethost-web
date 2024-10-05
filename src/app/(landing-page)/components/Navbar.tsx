@@ -9,9 +9,8 @@ import { useState } from "react";
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
   const navItems = [
-    {name: 'Anfitriões', href: '/andfitrioes'},
+    {name: 'Anfitriões', href: '/anfitrioes'},
     {name: 'Como funciona', href: '/como-funciona'},
-    {name: 'Blog', href: 'blog'},
     {name: 'Quero ser um anfitrião', href: '/quero-ser-um-anfitriao'},
   ]
   return (
@@ -20,7 +19,7 @@ export function Navbar() {
       <div className="flex justify-between h-16">
         <div className="flex items-center flex-shrink-0">
           <Link href="/" className="flex items-center">
-            <span className="text-xl font-bold text-gray-900">
+            <span className="text-2xl font-black text-gray-900">
               PetHost
             </span>
           </Link>
@@ -30,7 +29,7 @@ export function Navbar() {
             <Link
               key={item.name}
               href={item.href}
-              className="px-3 py-2 rounded-md text-sm font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+              className="px-3 py-2 rounded-md font-medium text-gray-700 hover:text-gray-900 hover:bg-gray-50 text-base"
             >
               {item.name}
             </Link>
