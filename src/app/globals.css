@@ -1,7 +1,27 @@
+/* src/app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* Definindo classes personalizadas dentro do @layer components */
+@layer components {
+  .border-border {
+    border-color: theme('colors.border'); /* Certifique-se de que 'border' esteja definido no tailwind.config.js */
+  }
+}
+
+/* Aplicando estilos globais no @layer base */
 @layer base {
+  * {
+    @apply border-border; /* Aplica a classe de borda a todos os elementos */
+  }
+  
+  body {
+    @apply bg-background text-foreground; /* Aplica as cores de fundo e texto ao corpo */
+  }
+}
+
+
   :root {
     --background: 0 0% 100%;
     --foreground: 224 71.4% 4.1%;
@@ -27,8 +47,9 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
-    --radius: 0.5rem
+    --radius: 0.5rem;
   }
+
   .dark {
     --background: 224 71.4% 4.1%;
     --foreground: 210 20% 98%;
@@ -53,14 +74,17 @@
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
     --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%
+    --chart-5: 340 75% 55%;
   }
-}
+
+
+/* Aplicando estilos globais no @layer base */
 @layer base {
   * {
-    @apply border-border;
+    @apply border-border; /* Aplica a classe de borda a todos os elementos */
   }
+  
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground; /* Define fundo e texto do corpo */
   }
 }
