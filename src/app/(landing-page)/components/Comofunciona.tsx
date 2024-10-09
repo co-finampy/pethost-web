@@ -21,7 +21,7 @@ export function ComoFunciona() {
   ]
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-12 sm:py-16 md:py-24 mt-10">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
         <div className="flex flex-col md:pr-4 lg:pr-8">
           <h2 className="text-2xl sm:text-3xl font-bold mb-4">Como funciona?</h2>
