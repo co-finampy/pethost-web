@@ -2,7 +2,7 @@ import { api } from "./api-client";
 
 interface SignInWithPasswordRequest {
   email: string;
-  password: string;
+  senha: string;
 }
 
 interface SignInWithPasswordResponse {
@@ -13,18 +13,18 @@ interface SignInWithPasswordResponse {
   expiraEm: string;
 }
 
-export async function SignInWithPassword({email, password}: SignInWithPasswordRequest) {
+export async function SignInWithPassword({email, senha}: SignInWithPasswordRequest) {
   try {
     const result = await api.post('auth/login', {
       json: {
         email,
-        password,
+        senha,
       }
     }).json<SignInWithPasswordResponse>()
   
     return result
   } catch (error) {
-    console.error(error)
+    console.error("teste", error)
     
   }
 }
