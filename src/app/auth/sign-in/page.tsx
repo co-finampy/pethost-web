@@ -17,8 +17,8 @@ export default function SignInPage() {
       </div>
 
       <div className="space-y-1">
-        <Label htmlFor="password">Password</Label>
-        <Input name="password" type="password" id="password"/>
+        <Label htmlFor="senha">Password</Label>
+        <Input name="senha" type="password" id="senha"/>
 
         <Link
          href="/auth/forgot-password" 

@@ -1,24 +1,23 @@
-"use client" // Adicione esta linha para marcar o componente como Client Component
+"use client"
 
 import React from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { PawPrint, Home, Calendar, MessageSquare, Settings, Menu, X, Users, DollarSign } from 'lucide-react'
 
-export default function Dashboard() {
+export default function Page() {
   const [sidebarOpen, setSidebarOpen] = React.useState(false)
   const pathname = usePathname()
 
   const menuItems = [
-    { icon: Home, label: 'Início', href: '/dashboard' },
-    { icon: PawPrint, label: 'Meus Pets', href: '/dashboard/pets' },
-    { icon: Calendar, label: 'Reservas', href: '/dashboard/reservas' },
-    { icon: MessageSquare, label: 'Mensagens', href: '/dashboard/mensagens' },
-    { icon: Users, label: 'Comunidade', href: '/dashboard/comunidade' },
-    { icon: DollarSign, label: 'Financeiro', href: '/dashboard/financeiro' },
-    { icon: Settings, label: 'Configurações', href: '/dashboard/configuracoes' },
+    { icon: Home, label: 'Início', href: '/app' },
+    { icon: PawPrint, label: 'Meus Pets', href: '/app/pets' },
+    { icon: Calendar, label: 'Reservas', href: '/app/reservas' },
+    { icon: MessageSquare, label: 'Mensagens', href: '/app/mensagens' },
+    { icon: Users, label: 'Comunidade', href: '/app/comunidade' },
+    { icon: DollarSign, label: 'Financeiro', href: '/app/financeiro' },
+    { icon: Settings, label: 'Configurações', href: '/app/configuracoes' },
   ]
 
   return (
