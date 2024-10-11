@@ -5,15 +5,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import { Switch } from "@radix-ui/react-switch";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@radix-ui/react-select"; // Importações do Radix UI
-import { Checkbox } from "@/components/ui/checkbox"; // Importando Checkbox do Radix UI
+import { Switch } from "@/components/ui/switch"; // Ajuste aqui para o Switch
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"; // Ajuste na importação
+import { Checkbox } from "@/components/ui/checkbox"; // Ajuste para Checkbox
 import { Card, CardContent } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Search, SlidersHorizontal, MapPin, Star, Users } from "lucide-react";
@@ -196,26 +190,8 @@ export default function Component() {
                   id="pet-spayed"
                   checked={petSpayed}
                   onCheckedChange={setPetSpayed}
-                  className={`${
-                    petSpayed
-                      ? "bg-black border-transparent" 
-                      : "bg-gray-300 border-gray-400"
-                  } relative inline-flex items-center h-6 w-11 rounded-full transition-colors duration-200 ease-in-out`}
-                >
-                  <span
-                    className={`${
-                      petSpayed ? "translate-x-5" : "translate-x-0"
-                    } inline-block w-5 h-5 bg-white rounded-full shadow transform transition-transform duration-200 ease-in-out`}
-                  />
-                </Switch>
-                <Label
-                  htmlFor="pet-spayed"
-                  className={`${
-                    petSpayed ? "text-black font-semibold" : "text-gray-700"
-                  }`}
-                >
-                  Pet Castrado
-                </Label>
+                />
+                <Label htmlFor="pet-spayed">Pet Castrado</Label>
               </div>
             </CardContent>
           </Card>
@@ -230,54 +206,52 @@ export default function Component() {
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="recommended">Recomendado</SelectItem>
-                <SelectItem value="price-low">Menor preço</SelectItem>
-                <SelectItem value="price-high">Maior preço</SelectItem>
-                <SelectItem value="rating">Melhor avaliação</SelectItem>
+                <SelectItem value="price-low">Menor Preço</SelectItem>
+                <SelectItem value="price-high">Maior Preço</SelectItem>
               </SelectContent>
             </Select>
           </div>
-          {sitters.map((sitter) => (
-            <Card key={sitter.id}>
-              <CardContent className="p-4 flex items-start space-x-4">
-                <Avatar className="w-24 h-24">
-                  <AvatarImage
-                    src={`/placeholder.svg?height=96&width=96`}
-                    alt={sitter.name}
-                  />
-                  <AvatarFallback>{sitter.name.charAt(0)}</AvatarFallback>
-                </Avatar>
-                <div className="flex-grow">
-                  <h3 className="text-lg font-semibold">{sitter.name}</h3>
-                  <p className="text-sm text-gray-500 flex items-center">
-                    <MapPin className="mr-1 h-4 w-4" />
-                    {sitter.location} - {sitter.distance} km
-                  </p>
-                  <p className="text-sm text-gray-500 flex items-center">
-                    <Star className="mr-1 h-4 w-4" />
-                    {sitter.rating} ({sitter.reviews} avaliações)
-                  </p>
-                  <p className="text-sm text-gray-500 flex items-center">
-                    <Users className="mr-1 h-4 w-4" />
-                    {sitter.loyalClients} clientes fiéis
-                  </p>
-                </div>
-                <div className="flex flex-col items-end">
-                  <p className="text-lg font-semibold">
-                    R${sitter.price}
-                    <span className="text-sm font-normal text-gray-500">
-                      /noite
-                    </span>
-                  </p>
-                  <Button
-                    size="sm"
-                    className="mt-2 bg-black text-white hover:bg-gray-800 transition-colors duration-200"
-                  >
-                    Ver perfil
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            {sitters.map((sitter) => (
+              <Card key={sitter.id} className="shadow-lg">
+                <CardContent className="space-y-4">
+                  <Avatar className="w-16 h-16">
+                    <AvatarImage src={`https://avatar.io/${sitter.name}`} />
+                    <AvatarFallback>{sitter.name.charAt(0)}</AvatarFallback>
+                  </Avatar>
+                  <div className="space-y-2">
+                    <h3 className="text-lg font-semibold">{sitter.name}</h3>
+                    <p className="text-gray-500">{sitter.location}</p>
+                    <p className="text-gray-500">
+                      <MapPin className="inline-block mr-1 h-4 w-4" />
+                      {sitter.distance} km de distância
+                    </p>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex items-center space-x-1">
+                      <Star className="h-4 w-4 text-yellow-500" />
+                      <p className="text-sm font-medium">
+                        {sitter.rating} ({sitter.reviews} avaliações)
+                      </p>
+                    </div>
+                    <div className="flex items-center space-x-1">
+                      <Users className="h-4 w-4 text-gray-500" />
+                      <p className="text-sm text-gray-500">
+                        {sitter.loyalClients} clientes leais
+                      </p>
+                    </div>
+                    <p className="text-lg font-semibold">
+                      R$ {sitter.price}/noite
+                    </p>
+                  </div>
+                  <Button variant="default" className="w-full">
+                    Ver Perfil
                   </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </div>
     </div>
