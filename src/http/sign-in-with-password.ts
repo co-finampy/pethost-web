@@ -14,7 +14,6 @@ interface SignInWithPasswordResponse {
 }
 
 export async function SignInWithPassword({email, senha}: SignInWithPasswordRequest) {
-  try {
     const result = await api.post('auth/login', {
       json: {
         email,
@@ -23,8 +22,4 @@ export async function SignInWithPassword({email, senha}: SignInWithPasswordReque
     }).json<SignInWithPasswordResponse>()
   
     return result
-  } catch (error) {
-    console.error("teste", error)
-    
-  }
 }
