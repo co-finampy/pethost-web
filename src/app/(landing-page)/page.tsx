@@ -1,9 +1,9 @@
-import { Beneficios } from "./components/Beneficios";
-import { CarouselHero } from "./components/Carrousel";
-import { ComoFunciona } from "./components/Comofunciona";
-import { Faq } from "./components/Faq";
-import { Footer } from "./components/Footer";
-import { Navbar } from "./components/Navbar";
+import { Beneficios } from "./_components/Beneficios";
+import { CarouselHero } from "./_components/Carrousel";
+import { ComoFunciona } from "./_components/Comofunciona";
+import { Faq } from "./_components/Faq";
+import { Footer } from "./_components/Footer";
+import { Navbar } from "./_components/Navbar";
 
 export default function Home() {
   return (
