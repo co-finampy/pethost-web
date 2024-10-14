@@ -13,18 +13,16 @@ interface SignInWithPasswordResponse {
   expiraEm: string;
 }
 
-export async function SignInWithPassword({email, senha}: SignInWithPasswordRequest) {
-  try {
-    const result = await api.post('auth/login', {
-      json: {
-        email,
-        senha,
-      }
-    }).json<SignInWithPasswordResponse>()
-  
-    return result
-  } catch (error) {
-    console.error("teste", error)
-    
-  }
+export async function SignInWithPassword({
+  email, 
+  senha
+}: SignInWithPasswordRequest) {
+  const result = await api.post('auth/login', {
+    json: {
+      email,
+      senha,
+    }
+  }).json<SignInWithPasswordResponse>()
+
+  return result
 }
