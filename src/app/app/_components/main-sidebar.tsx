@@ -45,8 +45,8 @@ export function MainSidebar() {
               Reservas
             </DashboardSidebarNavLink>
             <DashboardSidebarNavLink
-              href="/app/settings"
-              active={isActive('/app/settings')}
+              href="/app/perfil-usuario"
+              active={isActive('/app/perfil-usuario')}
             >
               <GearIcon className="w-5 h-5 mr-3" />
               Configurações
