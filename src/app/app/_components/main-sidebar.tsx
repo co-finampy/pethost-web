@@ -31,15 +31,15 @@ export function MainSidebar() {
               Dashboard
             </DashboardSidebarNavLink>
             <DashboardSidebarNavLink
-              href="/app/releases"
-              active={isActive('/app/releases')}
+              href="/app/registrar-pet"
+              active={isActive('/app/registrar-pet')}
             >
               <ArchiveIcon className="w-5 h-5 mr-3" />
               Pet
             </DashboardSidebarNavLink>
             <DashboardSidebarNavLink
-              href="/app/reports"
-              active={isActive('/app/reports')}
+              href="/app/vizualizar-reservas"
+              active={isActive('/app/vizualizar-reservas')}
             >
               <BackpackIcon className="w-5 h-5 mr-3" />
               Reservas
