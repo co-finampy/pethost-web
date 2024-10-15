@@ -1,44 +1,49 @@
 'use server'
 
-import { SignInWithPassword } from "@/http/sign-in-with-password"
+import { signInWithPassword } from "@/http/sign-in-with-password"
 import { HTTPError } from "ky"
+
+import { cookies } from "next/headers"
+
 import { z } from "zod"
 
 const SignInShema = z.object({
   email: z.string().email({ message: 'Por favor. preencher corretamente o email' }),
-  senha: z.string().min(6, { message: 'Por favor, preencher a senha, minimo 6 caracteres' }),
+  senha: z.string().min(1, { message: 'Por favor, preencher a senha, minimo 6 caracteres' }),
 })
 
-export async function SignInWithEmailAndPassword(input: FormData) {
+export async function signInWithEmailAndPassword(_: unknown ,input: FormData){
   const result =  SignInShema.safeParse(Object.fromEntries(input))
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors
 
-    return { success: false, message: null, errors}
+    return { success: null, message: null, errors}
   }
 
   const { email, senha } = result.data
 
  try {
-  const { token } = await SignInWithPassword({ 
-    email: String(email), 
-    senha: String(senha),
+  const { token } = await signInWithPassword({ 
+    email, 
+    senha,
   })
   console.log(token)
- } catch (err) {
-  if (err instanceof HTTPError) {
-    const { message } = await err.response.json()
+  cookies().set('token', token, ({
+    path: '/',
+    maxAge: 60 * 60 * 24 * 7 
+  }))
+ } catch (error) {
+  if ( error instanceof HTTPError) {
+    const { nome, mensagem } = await error.response.json()
 
-    return { success: false, message, errors: null }
+    return { success: false, message: `${nome}: ${mensagem}`, errors: null }
   }
-  
-  console.log(err)
 
   return {
     success: false,
-    message: 'Algo deu errado, tente novamente mais tarde',
-    errors: null,
+    message: 'Erro inesperado, tente novamente',
+    errors: null
   }
  }
 

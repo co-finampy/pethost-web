@@ -1,26 +1,22 @@
-'use client'
-
+"use client"
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { signInWithEmailAndPassword } from "./actions";
+import { useFormState } from "react-dom";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { AlertTriangle, Loader2 } from "lucide-react";
-import { useFormState } from "@/hooks/use-form-state";
-import { SignInWithEmailAndPassword } from "./actions";
-import Link from "next/link";
+import { AlertTriangle } from "lucide-react";
 
 export function SignInForms() {
-
-  const { formState: { success, message, errors }, handleSubmit, isPending } = useFormState(SignInWithEmailAndPassword)
-
+  const [state, formAction, isPending] = useFormState(signInWithEmailAndPassword, {success: false, message: null, errors: null})
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      {success === false && message && (
-        <Alert variant="destructive">
-          <AlertTriangle size={4}  />
-          <AlertTitle> Sign in Failed!</AlertTitle>
+    <form action={formAction} className="space-y-4">
+      {state.success === false && state.message && (  
+        <Alert variant={'destructive'}>
+          <AlertTriangle className="size-4"/>
+          <AlertTitle>Login Falhou</AlertTitle>
           <AlertDescription>
-            <p>{message}</p>
+            <p>{state.message}</p>
           </AlertDescription>
         </Alert>
       )}
@@ -30,42 +26,33 @@ export function SignInForms() {
       <div className="space-y-1">
         <Label htmlFor="email">Email</Label>
         <Input name="email" type="email" id="email"/>
-
-        {errors?.email && (
-          <p className="text-xs font-medium text-red-500 dark:text-red-400">
-            {errors.email[0]}
-          </p>
+        {state.errors?.email && (
+          <p className="text-xs text-red-500">{state.errors.email[0]}</p>
         )}
       </div>
 
       <div className="space-y-1">
         <Label htmlFor="senha">Password</Label>
         <Input name="senha" type="password" id="senha"/>
-
-        {errors?.senha && (
-          <p className="text-xs font-medium text-red-500 dark:text-red-400">
-            {errors.senha[0]}
-          </p>
+        {state.errors?.senha && (
+          <p className="text-xs text-red-500">{state.errors.senha[0]}</p>
         )}
-        <Link
+
+        <a
          href="/auth/forgot-password" 
          className="text-xs font-medium text-foreground hover:underline"
         >
           Forgot password?
-        </Link>  
+        </a>  
       </div>
 
       <Button type="submit" className="w-full" disabled={isPending}>
-        {isPending ? (
-          <Loader2 className=" animate-spin" size={4} />
-        ): (
-          'Acessar'
-        )}
+        Acessar
       </Button>
 
       <Button variant={"link"} className="w-full" size={"sm"} asChild
       >
-        <Link href="/auth/sign-up">Ainda não tem uma conta? Criar</Link>
+        <a href="/auth/sign-up">Ainda não tem uma conta? Criar</a>
       </Button>
     </form>
   )
