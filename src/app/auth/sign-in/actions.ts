@@ -12,13 +12,13 @@ const SignInShema = z.object({
   senha: z.string().min(1, { message: 'Por favor, preencher a senha, minimo 6 caracteres' }),
 })
 
-export async function signInWithEmailAndPassword(_: unknown ,input: FormData){
+export async function signInWithEmailAndPassword(input: FormData){
   const result =  SignInShema.safeParse(Object.fromEntries(input))
 
   if (!result.success) {
     const errors = result.error.flatten().fieldErrors
 
-    return { success: null, message: null, errors}
+    return { success: false, message: null, errors}
   }
 
   const { email, senha } = result.data

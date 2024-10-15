@@ -1,3 +1,4 @@
+
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -12,7 +13,7 @@ import { LockClosedIcon } from '@radix-ui/react-icons'
 
 
 export function UserDropdown() {
-  // if (!user) return
+  // const session = await auth()
 
   return (
     <DropdownMenu>
@@ -27,10 +28,10 @@ export function UserDropdown() {
           </Avatar>
 
           <div className="flex flex-col flex-1 space-y-1 text-left">
-            {/* {user.name && (
-              <p className="text-sm font-medium leading-none">{user.name}</p>
-            )} */}
-            {/* {user.email} */}
+            {/* {session.nome && (
+              <p className="text-sm font-medium leading-none">{session.nome}</p>
+            )}
+            {session.email} */}
             <p className="text-xs leading-none text-muted-foreground">
               
             </p>
@@ -39,14 +40,12 @@ export function UserDropdown() {
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56" align="end" forceMount>
         <DropdownMenuLabel className="font-normal">
-          <div className="flex flex-col space-y-1">
-            {/* {user.name} */}
-            <p className="text-sm font-medium leading-none"></p>
-            {/* {user.email} */}
+          {/* <div className="flex flex-col space-y-1">
+            <p className="text-sm font-medium leading-none">{session.nome}</p>
             <p className="text-xs leading-none text-muted-foreground">
-              
+              {session.email}
             </p>
-          </div>
+          </div> */}
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         {/* onClick={() => signOut()} DropdownMenuItem  */}

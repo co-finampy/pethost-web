@@ -15,12 +15,12 @@ export async function auth() {
   }
 
   try {
-    const profileData = await GetProfile()
+    const session = await GetProfile()
 
-    return profileData
+    return session
   } catch {
     
   }
 
-  redirect('/auth/sign-in')
+  redirect('api/auth/sign-out')
 }

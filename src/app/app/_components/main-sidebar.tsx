@@ -8,8 +8,7 @@ import {
   GearIcon,
   HamburgerMenuIcon, // Ícone do menu hamburger
 } from '@radix-ui/react-icons'
-
-import { UserDropdown } from './user-dropdown'
+import {UserDropdown} from './user-dropdown'
 import {
   DashboardSidebar,
   DashboardSidebarFooter,
