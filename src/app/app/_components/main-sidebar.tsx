@@ -34,21 +34,19 @@ export function MainSidebar() {
   }
 
   const handleLinkClick = () => {
-    setSidebarOpen(false) // Fecha a sidebar quando um link é clicado
+    setSidebarOpen(false)
   }
 
   return (
     <>
-      {/* Botão hamburger visível em telas pequenas */}
       <button
-        className="p-2 md:hidden" // Exibe apenas em telas pequenas (md:largura mínima 768px)
+        className="p-2 md:hidden bg-slate-50"
         onClick={toggleSidebar}
       >
         <HamburgerMenuIcon className="w-6 h-6" />
       </button>
 
-      {/* Menu lateral */}
-      <DashboardSidebar className={`transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:block fixed md:static`}>
+      <DashboardSidebar className={`transition-transform transform ${isSidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 fixed md:static`}>
         <DashboardSidebarHeader>
           <Logo />
         </DashboardSidebarHeader>
@@ -58,33 +56,33 @@ export function MainSidebar() {
               <DashboardSidebarNavLink
                 href="/app"
                 active={isActive('/app')}
-                onClick={handleLinkClick} // Fecha a sidebar ao clicar
+                onClick={handleLinkClick}
               >
-                <DashboardIcon className="w-5 h-5 mr-3" />
+                <DashboardIcon className="w-5 h-5 mr-2" />
                 Dashboard
               </DashboardSidebarNavLink>
               <DashboardSidebarNavLink
                 href="/app/registrar-pet"
                 active={isActive('/app/registrar-pet')}
-                onClick={handleLinkClick} // Fecha a sidebar ao clicar
+                onClick={handleLinkClick}
               >
-                <ArchiveIcon className="w-5 h-5 mr-3" />
+                <ArchiveIcon className="w-5 h-5 mr-2" />
                 Pet
               </DashboardSidebarNavLink>
               <DashboardSidebarNavLink
                 href="/app/vizualizar-reservas"
                 active={isActive('/app/vizualizar-reservas')}
-                onClick={handleLinkClick} // Fecha a sidebar ao clicar
+                onClick={handleLinkClick}
               >
-                <BackpackIcon className="w-5 h-5 mr-3" />
+                <BackpackIcon className="w-5 h-5 mr-2" />
                 Reservas
               </DashboardSidebarNavLink>
               <DashboardSidebarNavLink
                 href="/app/perfil-usuario"
                 active={isActive('/app/perfil-usuario')}
-                onClick={handleLinkClick} // Fecha a sidebar ao clicar
+                onClick={handleLinkClick}
               >
-                <GearIcon className="w-5 h-5 mr-3" />
+                <GearIcon className="w-5 h-5 mr-2" />
                 Configurações
               </DashboardSidebarNavLink>
             </DashboardSidebarNavMain>
