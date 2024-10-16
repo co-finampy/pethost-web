@@ -28,10 +28,11 @@ export async function signInWithEmailAndPassword(input: FormData){
     email, 
     senha,
   })
-  console.log(token)
   cookies().set('token', token, ({
     path: '/',
-    maxAge: 60 * 60 * 24 * 7 
+    maxAge: 60 * 60 * 24 * 7,
+    httpOnly: true,
+    secure: true,
   }))
  } catch (error) {
   if ( error instanceof HTTPError) {
