@@ -21,8 +21,12 @@ interface GetProfileResponse {
   password: string;
 }
 
-export async function GetProfile() {
-  const result = await api.get('v1/usuarios/buscar').json<GetProfileResponse>()
-
+export async function GetProfile(sub: string, token: string) {
+  const result = await api.get(`v1/usuarios/buscar/${sub}`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  }).json<GetProfileResponse>()
+  console.log(result)
   return result
 }

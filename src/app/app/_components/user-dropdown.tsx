@@ -1,4 +1,4 @@
-
+'use client'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Button } from '@/components/ui/button'
 import {
@@ -11,9 +11,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { LockClosedIcon } from '@radix-ui/react-icons'
 
-
 export function UserDropdown() {
-  // const session = await auth()
 
   return (
     <DropdownMenu>
@@ -23,7 +21,7 @@ export function UserDropdown() {
           className="relative h-8 flex items-center justify-between w-full space-x-2 !px-0"
         >
           <Avatar className="h-10 w-10">
-            {/* <AvatarImage src={user.image as string} alt={user.name as string} /> */}
+            {/* <AvatarImage src={user?.email as string} alt={user?.nome as string} /> */}
             <AvatarFallback>A</AvatarFallback>
           </Avatar>
 
