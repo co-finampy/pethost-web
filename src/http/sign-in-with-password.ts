@@ -6,14 +6,10 @@ interface SignInWithPasswordRequest {
 }
 
 interface SignInWithPasswordResponse {
-  idUsuario: string;
-  email: string;
-  nome: string;
   token: string;
-  expiraEm: string;
 }
 
-export async function SignInWithPassword({
+export async function signInWithPassword({
   email, 
   senha
 }: SignInWithPasswordRequest) {

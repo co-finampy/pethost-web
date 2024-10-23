@@ -14,7 +14,7 @@ export function DashboardSidebar({
     <aside
       className={cn(
         'border-r border-border flex flex-col space-y-6 bg-slate-50 transition-transform md:translate-x-0',
-        'fixed inset-y-0 left-0 w-64 z-50 md:static md:w-64', // Sidebar sempre visível em telas grandes
+        'fixed inset-y-0 left-0 w-64 z-50 md:static md:w-64',
         className
       )}
     >
@@ -96,14 +96,14 @@ export function DashboardSidebarNavLink({
   children,
   href,
   active,
-  onClick, // Mantém a possibilidade de fechar ou executar outra lógica ao clicar
+  onClick,
 }: DashboardSidebarGenericProps<DashboardSidebarNavLinkProps>) {
   return (
     <Link
       href={href}
       className={cn([
-        'flex items-center text-xs px-3 py-2 rounded-md font-semibold',
-        active && 'bg-slate-200', // Marca como ativo o link correspondente
+        'flex items-center text-sm px-3 py-2 rounded-md font-semibold',
+        active && 'bg-slate-200',
         className,
       ])}
       onClick={onClick}
