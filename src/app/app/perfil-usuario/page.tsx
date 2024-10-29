@@ -4,12 +4,12 @@ import ProfileUser from "./_components/profile-user";
 export default function Page() {
   return (
     <DashboardPage>
-    <DashboardPageHeader>
-        <DashboardPageHeaderTitle>Settings</DashboardPageHeaderTitle>
-    </DashboardPageHeader>
-    <DashboardPageMain>
-        <ProfileUser />
-    </DashboardPageMain>
-</DashboardPage>
+      <DashboardPageHeader>
+          <DashboardPageHeaderTitle>Settings</DashboardPageHeaderTitle>
+      </DashboardPageHeader>
+      <DashboardPageMain>
+          <ProfileUser />
+      </DashboardPageMain>
+    </DashboardPage>
   )
 }

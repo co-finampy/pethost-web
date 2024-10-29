@@ -1,4 +1,5 @@
 import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "@/components/dashboard/page";
+import Booking from "./_components/bookings";
 
 export default function Page() {
   return (
@@ -7,8 +8,8 @@ export default function Page() {
         <DashboardPageHeaderTitle>Reservas</DashboardPageHeaderTitle>
     </DashboardPageHeader>
     <DashboardPageMain>
-        Reservas
+       <Booking />  
     </DashboardPageMain>
-</DashboardPage>
+  </DashboardPage>
   )
 }
