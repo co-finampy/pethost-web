@@ -16,7 +16,6 @@ import Link from 'next/link'
 
 export function UserDropdown() {
   const { user } = useUserProfile()
-
   return (
     <DropdownMenu>
       <DropdownMenuTrigger asChild>

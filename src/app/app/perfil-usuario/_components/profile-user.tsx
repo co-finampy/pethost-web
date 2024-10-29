@@ -2,9 +2,10 @@
 
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
 export default function ProfileUser() {
-
+  const { user } = useUserProfile();
   return (
     <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
