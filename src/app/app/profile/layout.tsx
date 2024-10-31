@@ -1,15 +1,17 @@
+import { PropsWithChildren } from "react";
 import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "@/components/dashboard/page";
-import ProfileUser from "./_components/profile-user";
+import { SettingsHeaderbar } from "./_components/settings-headerbar";
 
-export default function Page() {
-  return (
-    <DashboardPage>
+export default async function Layout({ children }: PropsWithChildren) {
+    return (
+      <DashboardPage>
       <DashboardPageHeader>
           <DashboardPageHeaderTitle>Settings</DashboardPageHeaderTitle>
       </DashboardPageHeader>
       <DashboardPageMain>
-          <ProfileUser />
+            <SettingsHeaderbar />
+            <div className="">{children}</div>
       </DashboardPageMain>
     </DashboardPage>
-  )
+    );
 }

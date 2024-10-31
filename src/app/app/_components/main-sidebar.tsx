@@ -22,7 +22,7 @@ import { Logo } from '@/components/logo'
 
 export function MainSidebar() {
   const pathname = usePathname()
-  const [isSidebarOpen, setSidebarOpen] = useState(false) // Estado para controlar o menu
+  const [isSidebarOpen, setSidebarOpen] = useState(false)
 
   const isActive = (path: string) => {
     return pathname === path
@@ -77,8 +77,8 @@ export function MainSidebar() {
                 Reservas
               </DashboardSidebarNavLink>
               <DashboardSidebarNavLink
-                href="/app/perfil-usuario"
-                active={isActive('/app/perfil-usuario')}
+                href="/app/profile"
+                active={isActive('/app/profile')}
                 onClick={handleLinkClick}
               >
                 <GearIcon className="w-5 h-5 mr-2" />
