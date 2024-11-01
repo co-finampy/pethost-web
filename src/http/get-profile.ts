@@ -10,7 +10,7 @@ interface GetProfileResponse {
   endereco: string | null;
   fotoUrl: string | null;
   datasDisponiveis: string[] | null;
-  pets: string[];
+  pets: Pet[];
   token: string | null;
   authorities: string[];
   username: string;
@@ -20,6 +20,22 @@ interface GetProfileResponse {
   enabled: boolean;
   password: string;
 }
+
+
+export interface Pet {
+  id: number;
+  tipoPet: string;
+  nomePet: string;
+  raca: string;
+  genero: "Masculino" | "Feminino"; 
+  tamanho: "Pequeno" | "Médio" | "Grande"; 
+  dataNascimento: string;
+  vacina: boolean;
+  castrado: boolean;
+  foto: string;
+  criadoEm: string;
+}
+
 
 export async function GetProfile(sub: string, token: string) {
   const result = await api.get(`v1/usuarios/buscar/${sub}`, {

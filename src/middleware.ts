@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from "next/server";
 import { getUrl } from "./lib/get-url";
 
@@ -8,11 +7,11 @@ export function middleware(request: NextRequest) {
     const pathname = request.nextUrl.pathname
 
     if(pathname === '/auth/sign-in' && token) {
-        return NextResponse.redirect(new URL(getUrl('/app')))
+        return NextResponse.redirect(new URL(getUrl('/app'), request.url))
     }
 
     if(pathname.includes('/app') && !token) {
-        return NextResponse.redirect(new URL(getUrl('/auth/sign-in')))
+        return NextResponse.redirect(new URL(getUrl('/auth/sign-in'), request.url))
     }
 }
 
