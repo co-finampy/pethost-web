@@ -4,6 +4,7 @@ import { ComoFunciona } from "./_components/Comofunciona";
 import { Faq } from "./_components/Faq";
 import { Footer } from "./_components/Footer";
 import { Navbar } from "./_components/Navbar";
+import { MiniFilter } from "./_components/MiniFilter";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
         </div>
         <Navbar />
         <CarouselHero />
+        <MiniFilter/>
         <Beneficios />
         <ComoFunciona />
         <Faq />
