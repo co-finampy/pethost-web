@@ -36,7 +36,7 @@ export function Navbar() {
           ))}
         </div>
         <div className="hidden sm:flex sm:items-center">
-          <Button>Entrar</Button>
+          <Button><Link href="/auth/sign-in">Acessar</Link></Button>
         </div>
         <div className="flex items-center sm:hidden">
           <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -58,7 +58,7 @@ export function Navbar() {
                     {item.name}
                   </Link>
                 ))}
-                <Button className="mt-4 w-full">Entrar</Button>
+                <Button className="mt-4 w-full"><Link href="/auth/sign-in">Acessar</Link></Button>
               </nav>
             </SheetContent>
           </Sheet>

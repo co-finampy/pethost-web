@@ -9,6 +9,6 @@ export default function Page() {
     <DashboardPageMain>
         Conteudo cadastro
     </DashboardPageMain>
-</DashboardPage>
+    </DashboardPage>
   )
 }
