@@ -21,8 +21,8 @@ interface GetProfileResponse {
   password: string;
 }
 
-export async function GetProfile(sub: string, token: string) {
-  const result = await api.get(`v1/usuarios/buscar/${sub}`, {
+export async function PutProfile(sub: string, token: string) {
+  const result = await api.put(`v1/usuarios/atualizar/${sub}`, {
     headers: {
       Authorization: `Bearer ${token}`
     }

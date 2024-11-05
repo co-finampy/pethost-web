@@ -76,10 +76,6 @@ export default function ProfileUser() {
             placeholder="Enter new password"
           />
         </div>
-        <div className="space-y-2">
-          <Label htmlFor="username">Username</Label>
-          <Input id="username" defaultValue={user?.username} />
-        </div>
       </CardContent>
       <CardFooter>
         <Button type="submit">Atualizar Perfil</Button>

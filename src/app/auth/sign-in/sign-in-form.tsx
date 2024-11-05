@@ -14,7 +14,7 @@ export function SignInForms() {
       signInWithEmailAndPassword,
       () => {
         router.push('/app')
-      })
+    })
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       {success === false && message && (  
