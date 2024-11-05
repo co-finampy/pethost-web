@@ -12,7 +12,7 @@ export function PetCards() {
 
   return (
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      {user?.pets.map((pet) => (
+      {user?.pets?.map((pet) => (
         <Card key={pet.id} className="overflow-hidden">
           <CardHeader className="pb-2">
             <CardTitle className="text-lg flex items-center justify-between">

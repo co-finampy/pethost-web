@@ -1,5 +1,7 @@
 import { DashboardPage, DashboardPageHeader, DashboardPageHeaderTitle, DashboardPageMain } from "@/components/dashboard/page";
 import { PetCards } from "./_components/pet-cards";
+import CadastroPetModal from "./_components/register";
+
 
 export default function Page() {
   return (
@@ -8,6 +10,7 @@ export default function Page() {
         <DashboardPageHeaderTitle>Meus Pets</DashboardPageHeaderTitle>
     </DashboardPageHeader>
     <DashboardPageMain>
+        <CadastroPetModal />
         <PetCards />
     </DashboardPageMain>
 </DashboardPage>

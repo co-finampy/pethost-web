@@ -61,8 +61,8 @@ export function MainSidebar() {
                 Dashboard
               </DashboardSidebarNavLink>
               <DashboardSidebarNavLink
-                href="/app/registrar-pet"
-                active={isActive('/app/registrar-pet')}
+                href="/app/pets"
+                active={isActive('/app/pets')}
                 onClick={handleLinkClick}
               >
                 <ArchiveIcon className="w-5 h-5 mr-2" />
