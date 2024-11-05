@@ -21,12 +21,13 @@ const petSchema = z.object({
     foto: z.string().min(1, { message: 'Por favor, forneça uma foto do pet.' }), // Alterado para validar que algo seja fornecido
 });
 
-export async function registerPetAction(input: FormData, uidUsuario: string, criadoEm: string, token: string | null) {
+export async function registerPetAction(input: FormData) {
     const result = petSchema.safeParse(Object.fromEntries(input));
+    console.log("teste =", input)
 
     if (!result.success) {
         const errors = result.error.flatten().fieldErrors;
-        return { success: false, message: "Por favor, corrija os erros e tente novamente.", errors };
+        return { success: false, message: null, errors };
     }
 
     const {
@@ -40,7 +41,6 @@ export async function registerPetAction(input: FormData, uidUsuario: string, cri
         castrado,
         foto
     } = result.data;
-    console.log(result.data);
     try {
         await registerPet({
             tipoPet,
@@ -52,9 +52,7 @@ export async function registerPetAction(input: FormData, uidUsuario: string, cri
             vacina,
             castrado,
             foto,
-            criadoEm,
-            uidUsuario
-        }, token);
+        });
     } catch (error) {
         if (error instanceof HTTPError) {
             const { nome, mensagem } = await error.response.json();
@@ -67,6 +65,5 @@ export async function registerPetAction(input: FormData, uidUsuario: string, cri
             errors: null
         };
     }
-
-    return { success: true, message: 'Pet cadastrado com sucesso! mensagem da action', errors: null };
+    return { success: true, message: null, errors: null };
 }

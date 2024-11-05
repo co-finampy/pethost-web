@@ -10,8 +10,6 @@ export interface RegisterPetRequest {
     vacina: boolean;
     castrado: boolean;
     foto: string;
-    criadoEm: string;
-    uidUsuario: string;
 }
 
 type RegisterPetResponse = void;
@@ -26,36 +24,21 @@ export async function registerPet({
     vacina,
     castrado,
     foto,
-    criadoEm,
-    uidUsuario,
-}: RegisterPetRequest, token: string | null): Promise<RegisterPetResponse> {
-
-    const requestBody = {
-        tipoPet,
-        nomePet,
-        raca,
-        genero,
-        tamanho,
-        dataNascimento,
-        vacina,
-        castrado,
-        foto,
-        criadoEm,
-        uidUsuario
-    };
-
-    const headers = {
-        Authorization: `Bearer ${token}`
-    };
-
-    // Log para verificar os dados da requisição
-    console.log("Enviando requisição para /v1/pets/criar");
-    console.log("URL: /v1/pets/criar");
-    console.log("Dados:", requestBody);
-    console.log("Cabeçalhos:", headers);
-
-    await api.post('v1/pets/criar', {
-        json: requestBody,
-        headers: headers
-    });
+}: RegisterPetRequest, token?: string): Promise<RegisterPetResponse> {
+    await api.post('/v1/pets/criar', {
+        json: {
+            tipoPet,
+            nomePet,
+            raca,
+            genero,
+            tamanho,
+            dataNascimento,
+            vacina,
+            castrado,
+            foto,
+        },
+        headers: {
+            Authorization: `Bearer ${token}`
+        }
+    })
 }

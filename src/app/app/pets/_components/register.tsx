@@ -1,7 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -18,15 +17,13 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
-import { useUserProfile } from "@/hooks/use-user-profile";
-import { registerPetAction } from "../actions";
-import { Value } from "react-calendar/dist/esm/shared/types.js";
+import { AlertTriangle, CalendarIcon } from "lucide-react";
 import { useFormState } from "@/hooks/use-form-state";
+import { registerPetAction } from "../actions";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+
 
 export default function CadastroPetModal() {
-  const { user } = useUserProfile();
-  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [pet, setPet] = useState({
     tipoPet: "",
@@ -39,16 +36,24 @@ export default function CadastroPetModal() {
     castrado: false,
     foto: "",
   });
-  const [isLoading, setIsLoading] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
-  const [successMessage, setSuccessMessage] = useState("");
 
   const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
     registerPetAction,
     () => {
-      console.log('foi');
+      console.log("Pet cadastrado com sucesso");
     })
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setPet({ ...pet, foto: reader.result as string });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPet({ ...pet, [e.target.name]: e.target.value });
@@ -89,98 +94,6 @@ export default function CadastroPetModal() {
     setShowCalendar(false);
   };
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPet({ ...pet, foto: reader.result as string });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("Formulário enviado");
-    console.log("Dados do pet antes do envio:", pet);
-
-    setIsLoading(true);
-
-    if (!user) {
-      setErrorMessage(
-        "Usuário não encontrado. Por favor, faça login novamente."
-      );
-      setIsLoading(false);
-      return;
-    }
-
-    const formData = new FormData();
-
-    // Adicione logs para verificar cada campo
-    formData.append("tipoPet", pet.tipoPet);
-    console.log("tipoPet:", pet.tipoPet);
-
-    formData.append("nomePet", pet.nomePet);
-    console.log("nomePet:", pet.nomePet);
-
-    formData.append("raca", pet.raca);
-    console.log("raca:", pet.raca);
-
-    formData.append("genero", pet.genero);
-    console.log("genero:", pet.genero);
-
-    formData.append("tamanho", pet.tamanho);
-    console.log("tamanho:", pet.tamanho);
-
-    formData.append(
-      "dataNascimento",
-      pet.dataNascimento ? pet.dataNascimento.toISOString() : ""
-    );
-    console.log(
-      "dataNascimento:",
-      pet.dataNascimento ? pet.dataNascimento.toISOString() : ""
-    );
-
-    formData.append("vacina", String(pet.vacina));
-    console.log("vacina:", String(pet.vacina));
-
-    formData.append("castrado", String(pet.castrado));
-    console.log("castrado:", String(pet.castrado));
-
-    formData.append("foto", pet.foto);
-    console.log("foto:", pet.foto);
-
-    // Exiba todo o conteúdo do FormData após adicionar todos os campos
-    console.log("FormData para envio:", Array.from(formData.entries()));
-
-    try {
-      await registerPetAction(
-        formData,
-        user.uid,
-        new Date().toISOString(),
-        user.token
-      );
-      console.log("Pet cadastrado com sucesso");
-      setIsOpen(false);
-      setPet({
-        tipoPet: "",
-        nomePet: "",
-        raca: "",
-        genero: "",
-        tamanho: "",
-        dataNascimento: null,
-        vacina: false,
-        castrado: false,
-        foto: "",
-      });
-    } catch (error) {
-      console.error("Erro ao cadastrar o pet:", error);
-      setErrorMessage("Erro ao cadastrar o pet. Tente novamente.");
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -193,16 +106,30 @@ export default function CadastroPetModal() {
             <CardTitle className="text-2xl font-bold text-center">
               Cadastro de Pet
             </CardTitle>
-            {successMessage && (
-              <p className="text-green-500">{successMessage}</p>
+            {success === false && message && (  
+              <Alert variant={'destructive'}>
+                <AlertTriangle className="size-4"/>
+                <AlertTitle>Cadastro de pet falhou</AlertTitle>
+                <AlertDescription>
+                  <p>{message}</p>
+                </AlertDescription>
+              </Alert>
             )}
-            {errorMessage && <p className="text-red-500">{errorMessage}</p>}
+            {success === true && message && (
+              <Alert variant={'default'}>
+                <AlertTriangle className="size-4"/>
+                <AlertTitle>Cadastro de pet realizado com sucesso</AlertTitle>
+                <AlertDescription>
+                  <p>{message}</p>
+                </AlertDescription>
+              </Alert>
+            )}
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-3">
               <div className="space-y-2">
                 <Label htmlFor="tipoPet">Tipo de Pet</Label>
-                <Select onValueChange={handleSelectChange("tipoPet")} required>
+                <Select onValueChange={handleSelectChange("tipoPet")} name="tipoPet">
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione o tipo de pet" />
                   </SelectTrigger>
@@ -212,6 +139,10 @@ export default function CadastroPetModal() {
                     <SelectItem value="outro">Outro</SelectItem>
                   </SelectContent>
                 </Select>
+
+                 {errors?.tipoPet && (
+                  <p className="text-xs text-red-500">{errors.tipoPet[0]}</p>
+                 )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="nomePet">Nome do Pet</Label>
@@ -222,6 +153,10 @@ export default function CadastroPetModal() {
                   onChange={handleChange}
                   required
                 />
+
+                {errors?.nomePet && (
+                  <p className="text-xs text-red-500">{errors.nomePet[0]}</p>
+                 )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="raca">Raça</Label>
@@ -231,10 +166,14 @@ export default function CadastroPetModal() {
                   value={pet.raca}
                   onChange={handleChange}
                 />
+
+                  {errors?.raca && (
+                  <p className="text-xs text-red-500">{errors.raca[0]}</p>
+                 )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="genero">Gênero</Label>
-                <Select onValueChange={handleSelectChange("genero")} required>
+                <Select onValueChange={handleSelectChange("genero")} name="genero">
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione o gênero" />
                   </SelectTrigger>
@@ -243,10 +182,13 @@ export default function CadastroPetModal() {
                     <SelectItem value="femea">Fêmea</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors?.genero && (
+                  <p className="text-xs text-red-500">{errors.genero[0]}</p>
+                 )}
               </div>
               <div className="space-y-2">
                 <Label htmlFor="tamanho">Tamanho</Label>
-                <Select onValueChange={handleSelectChange("tamanho")} required>
+                <Select onValueChange={handleSelectChange("tamanho")} name="tamanho">
                   <SelectTrigger>
                     <SelectValue placeholder="Selecione o tamanho" />
                   </SelectTrigger>
@@ -256,11 +198,15 @@ export default function CadastroPetModal() {
                     <SelectItem value="grande">Grande</SelectItem>
                   </SelectContent>
                 </Select>
+                {errors?.tamanho && (
+                  <p className="text-xs text-red-500">{errors.tamanho[0]}</p>
+                 )}
               </div>
-              <div className="space-y-2">
+              {/* <div className="space-y-2">
                 <Label htmlFor="dataNascimento">Data de Nascimento</Label>
                 <div className="relative">
                   <Button
+                    name="dataNascimento"
                     type="button"
                     variant="outline"
                     className={`w-full justify-start text-left font-normal ${
@@ -282,25 +228,36 @@ export default function CadastroPetModal() {
                       className="absolute z-10 mt-2"
                     />
                   )}
+                   {errors?.dataNascimento && (
+                      <p className="text-xs text-red-500">{errors.dataNascimento[0]}</p>
+                    )}
                 </div>
-              </div>
-              <div className="flex items-center space-x-2">
+              </div> */}
+              {/* <div className="flex items-center space-x-2">
                 <Checkbox
                   id="vacina"
+                  name="vacina"
                   checked={pet.vacina}
                   onCheckedChange={handleCheckboxChange("vacina")}
                 />
                 <Label htmlFor="vacina">Vacinado</Label>
-              </div>
-              <div className="flex items-center space-x-2">
+                {errors?.vacina && (
+                      <p className="text-xs text-red-500">{errors.vacina[0]}</p>
+                )}
+              </div> */}
+              {/* <div className="flex items-center space-x-2">
                 <Checkbox
                   id="castrado"
+                  name="castrado"
                   checked={pet.castrado}
                   onCheckedChange={handleCheckboxChange("castrado")}
                 />
                 <Label htmlFor="castrado">Castrado</Label>
-              </div>
-              <div className="space-y-2">
+                {errors?.castrado && (
+                      <p className="text-xs text-red-500">{errors.castrado[0]}</p>
+                    )}
+              </div> */}
+              {/* <div className="space-y-2">
                 <Label htmlFor="foto">Foto do Pet</Label>
                 <Input
                   id="foto"
@@ -309,9 +266,13 @@ export default function CadastroPetModal() {
                   accept="image/*"
                   onChange={handleFileChange}
                 />
-              </div>
-              <Button type="submit" className="w-full" disabled={isLoading}>
-                {isLoading ? "Cadastrando..." : "Cadastrar Pet"}
+
+                {errors?.foto && (
+                  <p className="text-xs text-red-500">{errors.foto[0]}</p>
+                )}
+              </div> */}
+              <Button type="submit" className="w-full" disabled={isPending}>
+                {isPending ? "Cadastrando..." : "Cadastrar Pet"}
               </Button>
             </form>
           </CardContent>
