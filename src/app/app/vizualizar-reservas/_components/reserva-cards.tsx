@@ -5,7 +5,7 @@ import { ptBR } from "date-fns/locale";
 
 interface Reserva {
   uid: string;
-  uidClient: string
+  uidClient: string;
   uidAnfitriao: string;
   uidPet: string;
   dataEntrada: string;
@@ -24,14 +24,19 @@ interface ReservaCardProps {
 }
 
 export function ReservaCard({ reservation, onCancel, onSelect }: ReservaCardProps) {
-  const formatDate = (dateString: string) => format(new Date(dateString), 'dd/MM/yyyy HH:mm', { locale: ptBR });
+  const formatDate = (dateString: string) =>
+    format(new Date(dateString), 'dd/MM/yyyy HH:mm', { locale: ptBR });
 
   const getStatusColor = (status: string) => {
     switch (status.toLowerCase()) {
-      case 'confirmada': return 'bg-green-500';
-      case 'pendente': return 'bg-yellow-500';
-      case 'cancelada': return 'bg-red-500';
-      default: return 'bg-gray-500';
+      case 'confirmada':
+        return 'bg-green-500';
+      case 'pendente':
+        return 'bg-yellow-500';
+      case 'cancelada':
+        return 'bg-red-500';
+      default:
+        return 'bg-gray-500';
     }
   };
 
@@ -42,33 +47,28 @@ export function ReservaCard({ reservation, onCancel, onSelect }: ReservaCardProp
       </CardHeader>
       <CardContent>
         <div className="grid gap-4">
-          {/* Detalhes da reserva */}
           <div className="grid grid-cols-4 items-center gap-4">
-            <span className="font-bold">ID:</span>
-            <span className="col-span-3">{reservation.uid}</span>
-          </div>
-          <div className="grid grid-cols-4 items-center gap-4">
-            <span className="font-bold">Cliente:</span>
-            <span className="col-span-3">{String(reservation.uidClient)}</span>
+            <span className="font-bold">ID do Cliente:</span>
+            <span className="col-span-3">{reservation.uidClient}</span>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <span className="font-bold">Anfitrião:</span>
-            <span className="col-span-3">{String(reservation.uidAnfitriao)}</span>
+            <span className="col-span-3">{reservation.uidAnfitriao}</span>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
             <span className="font-bold">Pet:</span>
             <span className="col-span-3">{reservation.uidPet}</span>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <span className="font-bold">Entrada:</span>
+            <span className="font-bold">Data de Entrada:</span>
             <span className="col-span-3">{formatDate(reservation.dataEntrada)}</span>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <span className="font-bold">Saída:</span>
+            <span className="font-bold">Data de Saída:</span>
             <span className="col-span-3">{formatDate(reservation.dataSaida)}</span>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
-            <span className="font-bold">Tipo:</span>
+            <span className="font-bold">Tipo de Reserva:</span>
             <span className="col-span-3">{reservation.tipoReserva}</span>
           </div>
           <div className="grid grid-cols-4 items-center gap-4">
@@ -92,15 +92,13 @@ export function ReservaCard({ reservation, onCancel, onSelect }: ReservaCardProp
             <span className="col-span-3">{reservation.observacoes || 'Nenhuma observação'}</span>
           </div>
 
-          {/* Ações */}
-          {reservation.status !== 'Cancelada' && (
+          {reservation.status !== 'cancelada' && (
             <div className="grid gap-2">
               <button className="btn btn-danger" onClick={onCancel}>
                 Cancelar Reserva
               </button>
             </div>
           )}
-
           <button className="btn btn-outline" onClick={onSelect}>
             Ver Detalhes
           </button>

@@ -1,222 +1,171 @@
-"use client";
+'use client';
 
-import { useState, useEffect, use } from "react";
-import { Button } from "@/components/ui/button";
-import { Textarea } from "@/components/ui/textarea";
-import { Input } from "@/components/ui/input";
-import { useUserProfile } from "@/hooks/use-user-profile";
-import { getSubFromToken } from "@/http/get-sub-jwt";
+import { useState } from "react";
 
-// Tipagem das reservas (pode ser ajustada conforme sua API)
-interface Reserva {
-  uid: string;
-  uidClient: string;
-  uidAnfitriao: string;
+interface DadosFormulario {
   uidPet: string;
-  tipoReserva: string;
   dataEntrada: string;
   dataSaida: string;
-  valor: string;
+  tipoReserva: string;
+  valor: number;
   status: string;
-  createdAt: string;
+  observacoes: string;
 }
 
-export default  function Page() {
-  const [reservations, setReservations] = useState<Reserva[]>([]); // Lista de reservas
-  const {user} = useUserProfile();
-  const { sub, token } = getSubFromToken();
-  const [formData, setFormData] = useState({
-    uidClient: user?.uid,
-    uidAnfitriao: "",
+const ReservaForm = () => {
+  const [dadosFormulario, setDadosFormulario] = useState<DadosFormulario>({
     uidPet: "",
-    tipoReserva: "",
     dataEntrada: "",
     dataSaida: "",
-    valor: "",
-    status: "Pendente", // Status inicial
-    observacoes: "", // Adicionando a chave 'observacoes' ao estado
+    tipoReserva: "",
+    valor: 0,
+    status: "",
+    observacoes: "",
   });
 
-  // Função para carregar as reservas
-  useEffect(() => {
-    async function fetchReservations() {
-      try {
+  const [mensagemErro, setMensagemErro] = useState("");
+  const [reservaCriada, setReservaCriada] = useState<any>(null);
 
-        if (!token) {
-          alert("Você não está autenticado!");
-          return;
-        }
-
-        const response = await fetch(`http://localhost:8080/v1/reservas/${user.uid}/listar`, {
-          method: "GET",
-          headers: {
-            "Authorization": `Bearer ${token}`, // Envia o token JWT no cabeçalho
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error(`Erro ao carregar reservas: ${response.statusText}`);
-        }
-
-        const data = await response.json();
-        setReservations(data);
-      } catch (error) {
-        console.error("Erro ao carregar as reservas:", error);
-      }
-    }
-
-    fetchReservations();
-  }, []);
-
-  // Função para capturar as mudanças nos campos do formulário
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
+    setDadosFormulario({ ...dadosFormulario, [name]: value });
   };
 
-  // Função para enviar o formulário
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-
-   
-
-    if (!token) {
-      alert("Você não está autenticado!");
-      return;
-    }
 
     try {
       const response = await fetch("http://localhost:8080/v1/reservas/criar", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${token}`, // Envia o token JWT no cabeçalho
+          "Authorization": "Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhbGxhbmtlbHZlbm5AZ21haWwuY29tIiwiaWF0IjoxNzMxMDM4ODA0LCJleHAiOjE3MzEwNDI0MDR9.shqfYHgZgNDjAixgxG2oer62Nu-IIQYOqRHG2t9rB7I",
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(dadosFormulario),
       });
 
       if (!response.ok) {
-        const errorText = await response.text();
-        alert(`Erro ao criar reserva: ${errorText || "Erro desconhecido"}`);
+        const errorMessage = await response.text();
+        setMensagemErro(`Erro ao registrar a reserva: ${errorMessage}`);
         return;
       }
 
       const data = await response.json();
-      alert("Reserva criada com sucesso!");
+      setReservaCriada(data);
+      setMensagemErro("");
 
-      // Limpa o formulário e recarrega a lista de reservas
-      setFormData({
-        uidClient: user?.uid,
-        uidAnfitriao: "",
+      // Limpar o formulário
+      setDadosFormulario({
         uidPet: "",
-        tipoReserva: "",
         dataEntrada: "",
         dataSaida: "",
-        valor: "",
-        status: "Pendente",
-        observacoes: "", // Limpa também o campo observacoes
+        tipoReserva: "",
+        valor: 0,
+        status: "",
+        observacoes: "",
       });
-      setReservations((prev) => [...prev, data]); // Atualiza a lista com a nova reserva
     } catch (error) {
-      console.error("Erro ao registrar reserva:", error);
-      alert("Erro ao criar reserva.");
+      setMensagemErro("Erro de rede ou servidor.");
     }
   };
 
   return (
-    <div className="max-w-4xl mx-auto p-6">
-      <h2 className="text-3xl font-bold mb-6">Reservas</h2>
+    <div>
+      <h1>Criar Reserva</h1>
+      <form onSubmit={handleSubmit}>
+        <label>
+          UID do Pet:
+          <input
+            type="text"
+            name="uidPet"
+            value={dadosFormulario.uidPet}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Data de Entrada:
+          <input
+            type="datetime-local"
+            name="dataEntrada"
+            value={dadosFormulario.dataEntrada}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Data de Saída:
+          <input
+            type="datetime-local"
+            name="dataSaida"
+            value={dadosFormulario.dataSaida}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Tipo de Reserva:
+          <select
+            name="tipoReserva"
+            value={dadosFormulario.tipoReserva}
+            onChange={handleInputChange}
+            required
+          >
+            <option value="">Selecione</option>
+            <option value="hospedagem">Hospedagem</option>
+            <option value="creche">Creche</option>
+            <option value="passeio">Passeio</option>
+          </select>
+        </label>
+        <br />
+        <label>
+          Valor:
+          <input
+            type="number"
+            name="valor"
+            value={dadosFormulario.valor}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Status:
+          <input
+            type="text"
+            name="status"
+            value={dadosFormulario.status}
+            onChange={handleInputChange}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Observações:
+          <input
+            type="text"
+            name="observacoes"
+            value={dadosFormulario.observacoes}
+            onChange={handleInputChange}
+          />
+        </label>
+        <br />
+        <button type="submit">Criar Reserva</button>
+      </form>
 
-      {/* Formulário de criação de reserva */}
-      <div className="mb-6 p-4 border border-gray-200 rounded-lg shadow-md">
-        <h3 className="text-xl font-semibold mb-4">Criar Nova Reserva</h3>
-        <form onSubmit={handleSubmit}>
-          <div className="grid gap-4">
-          
-            <Input
-              type="text"
-              name="uidAnfitriao"
-              value={formData.uidAnfitriao}
-              onChange={handleChange}
-              placeholder="ID do Anfitrião"
-            />
-            <Input
-              type="text"
-              name="uidPet"
-              value={formData.uidPet}
-              onChange={handleChange}
-              placeholder="ID do Pet"
-            />
-            <Input
-              type="text"
-              name="tipoReserva"
-              value={formData.tipoReserva}
-              onChange={handleChange}
-              placeholder="Tipo de Reserva"
-            />
-            <Input
-              type="datetime-local"
-              name="dataEntrada"
-              value={formData.dataEntrada}
-              onChange={handleChange}
-            />
-            <Input
-              type="datetime-local"
-              name="dataSaida"
-              value={formData.dataSaida}
-              onChange={handleChange}
-            />
-            <Input
-              type="text"
-              name="valor"
-              value={formData.valor}
-              onChange={handleChange}
-              placeholder="Valor"
-            />
-            <Textarea
-              name="observacoes"
-              value={formData.observacoes}
-              onChange={handleChange}
-              placeholder="Observações (opcional)"
-            />
-            <Button type="submit" className="w-full">
-              Registrar Reserva
-            </Button>
-          </div>
-        </form>
-      </div>
+      {mensagemErro && <div style={{ color: "red" }}>{mensagemErro}</div>}
 
-      {/* Exibição das reservas */}
-      <div>
-        <h3 className="text-xl font-semibold mb-4">Lista de Reservas</h3>
-        <div className="grid gap-4">
-          {reservations.length > 0 ? (
-            reservations.map((reservation) => (
-              <div
-                key={reservation.uid}
-                className="bg-white p-4 rounded-lg shadow-md"
-              >
-                <h4 className="text-lg font-semibold">Reserva ID: {reservation.uid}</h4>
-                <p><strong>Cliente:</strong> {reservation.uidClient}</p>
-                <p><strong>Anfitrião:</strong> {reservation.uidAnfitriao}</p>
-                <p><strong>Pet:</strong> {reservation.uidPet}</p>
-                <p><strong>Entrada:</strong> {new Date(reservation.dataEntrada).toLocaleString()}</p>
-                <p><strong>Saída:</strong> {new Date(reservation.dataSaida).toLocaleString()}</p>
-                <p><strong>Valor:</strong> R$ {reservation.valor}</p>
-                <p><strong>Status:</strong> {reservation.status}</p>
-                <p><strong>Criada em:</strong> {new Date(reservation.createdAt).toLocaleString()}</p>
-              </div>
-            ))
-          ) : (
-            <p>Não há reservas para exibir.</p>
-          )}
+      {reservaCriada && (
+        <div>
+          <h2>Reserva Criada com Sucesso!</h2>
+          <pre>{JSON.stringify(reservaCriada, null, 2)}</pre>
         </div>
-      </div>
+      )}
     </div>
   );
-}
+};
+
+export default ReservaForm;
