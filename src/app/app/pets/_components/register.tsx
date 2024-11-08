@@ -12,12 +12,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
-import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-import { format } from "date-fns";
-import { AlertTriangle, CalendarIcon } from "lucide-react";
+import { AlertTriangle } from "lucide-react";
 import { useFormState } from "@/hooks/use-form-state";
 import { registerPetAction } from "../actions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
@@ -26,37 +23,21 @@ import { useUserProfile } from "@/hooks/use-user-profile";
 
 export default function CadastroPetModal() {
   const [isOpen, setIsOpen] = useState(false);
-  const {user} = useUserProfile();
+  const { user } = useUserProfile();
   const [pet, setPet] = useState({
     tipoPet: "",
     nomePet: "",
     raca: "",
     genero: "",
     tamanho: "",
-    dataNascimento: null as Date | null,
-    vacina: false,
-    castrado: false,
-    foto: "",
-    uidUsuario: user?.uid,
+    uidUsuario: "",
   });
-  const [showCalendar, setShowCalendar] = useState(false);
 
   const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
     registerPetAction,
     () => {
       console.log("Pet cadastrado com sucesso");
     })
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setPet({ ...pet, foto: reader.result as string });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPet({ ...pet, [e.target.name]: e.target.value });
@@ -66,36 +47,6 @@ export default function CadastroPetModal() {
     setPet({ ...pet, [field]: value });
   };
 
-  const handleCheckboxChange =
-    (field: keyof typeof pet) => (checked: boolean) => {
-      setPet({ ...pet, [field]: checked });
-    };
-
-  const handleDateChange = (
-    value: Value,
-    event: React.MouseEvent<HTMLButtonElement>
-  ) => {
-    if (Array.isArray(value)) {
-      // Lidar com intervalos de data
-      setPet({
-        ...pet,
-        dataNascimento: value[0] instanceof Date ? value[0] : null, // Usar a primeira data do intervalo
-      });
-    } else if (value instanceof Date) {
-      // Lidar com uma única data
-      setPet({
-        ...pet,
-        dataNascimento: value,
-      });
-    } else {
-      // Se value for nulo ou não for válido
-      setPet({
-        ...pet,
-        dataNascimento: null,
-      });
-    }
-    setShowCalendar(false);
-  };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
@@ -259,20 +210,18 @@ export default function CadastroPetModal() {
                       <p className="text-xs text-red-500">{errors.castrado[0]}</p>
                     )}
               </div> */}
-              {/* <div className="space-y-2">
-                <Label htmlFor="foto">Foto do Pet</Label>
+              <div className="space-y-2">
+                <Label htmlFor="uidUsuario">UUID</Label>
                 <Input
-                  id="foto"
-                  name="foto"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleFileChange}
+                  id="uidUsuario"
+                  name="uidUsuario"
+                  defaultValue={user?.uid}
                 />
 
                 {errors?.foto && (
                   <p className="text-xs text-red-500">{errors.foto[0]}</p>
                 )}
-              </div> */}
+              </div>
               <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? "Cadastrando..." : "Cadastrar Pet"}
               </Button>

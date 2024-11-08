@@ -7,10 +7,6 @@ export interface RegisterPetRequest {
     genero: string;
     tamanho: string;
     uidUsuario: string;
-    // dataNascimento: string;
-    // vacina: boolean;
-    // castrado: boolean;
-    // foto: string;
 }
 
 type RegisterPetResponse = void;
@@ -23,7 +19,7 @@ export async function registerPet({
     tamanho,
     uidUsuario
 }: RegisterPetRequest, token?: string): Promise<RegisterPetResponse> {
-    await api.post('/v1/pets/criar', {
+    await api.post('v1/pets/criar', {
         json: {
             tipoPet,
             nomePet,
