@@ -1,9 +1,12 @@
+"use client";
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { createReserva } from "@/app/app/vizualizar-reservas/_components/actions";
 
-export function CadastroReservaModal() {
+export function CadastroReserva() {
   const [formData, setFormData] = useState({
     uidClient: "",
     uidAnfitriao: "",
@@ -48,30 +51,20 @@ export function CadastroReservaModal() {
 
     setLoading(true);
     try {
-      const response = await fetch("/api/reservas", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const reserva = await createReserva(formData);  // Chama a função para criar reserva
+      alert("Reserva criada com sucesso!");
+      // Limpa o formulário após o envio
+      setFormData({
+        uidClient: "",
+        uidAnfitriao: "",
+        uidPet: "",
+        tipoReserva: "",
+        dataEntrada: "",
+        dataSaida: "",
+        valor: "",
+        status: "pendente",
+        observacoes: "",
       });
-      if (response.ok) {
-        alert("Reserva criada com sucesso!");
-        // Limpa o formulário após o envio
-        setFormData({
-          uidClient: "",
-          uidAnfitriao: "",
-          uidPet: "",
-          tipoReserva: "",
-          dataEntrada: "",
-          dataSaida: "",
-          valor: "",
-          status: "pendente",
-          observacoes: "",
-        });
-      } else {
-        alert("Erro ao criar reserva.");
-      }
     } catch (error) {
       console.error("Erro ao registrar reserva:", error);
     } finally {
