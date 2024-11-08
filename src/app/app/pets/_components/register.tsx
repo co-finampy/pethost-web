@@ -21,10 +21,12 @@ import { AlertTriangle, CalendarIcon } from "lucide-react";
 import { useFormState } from "@/hooks/use-form-state";
 import { registerPetAction } from "../actions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { useUserProfile } from "@/hooks/use-user-profile";
 
 
 export default function CadastroPetModal() {
   const [isOpen, setIsOpen] = useState(false);
+  const {user} = useUserProfile();
   const [pet, setPet] = useState({
     tipoPet: "",
     nomePet: "",
@@ -35,6 +37,7 @@ export default function CadastroPetModal() {
     vacina: false,
     castrado: false,
     foto: "",
+    uidUsuario: user?.uid,
   });
   const [showCalendar, setShowCalendar] = useState(false);
 
@@ -93,7 +96,6 @@ export default function CadastroPetModal() {
     }
     setShowCalendar(false);
   };
-
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
