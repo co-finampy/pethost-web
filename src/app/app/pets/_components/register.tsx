@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -19,6 +19,7 @@ import { useFormState } from "@/hooks/use-form-state";
 import { registerPetAction } from "../actions";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { useUserProfile } from "@/hooks/use-user-profile";
+import { Checkbox } from "@/components/ui/checkbox";
 
 
 export default function CadastroPetModal() {
@@ -30,14 +31,15 @@ export default function CadastroPetModal() {
     raca: "",
     genero: "",
     tamanho: "",
-    uidUsuario: "",
+    vacina: false,
+    castrado: false,
+    foto: "",
+    uidUsuario: user?.uid,
   });
 
   const [{ success, message, errors }, handleSubmit, isPending] = useFormState(
     registerPetAction,
-    () => {
-      console.log("Pet cadastrado com sucesso");
-    })
+  )
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPet({ ...pet, [e.target.name]: e.target.value });
@@ -46,6 +48,7 @@ export default function CadastroPetModal() {
   const handleSelectChange = (field: string) => (value: string) => {
     setPet({ ...pet, [field]: value });
   };
+
 
 
   return (
@@ -80,6 +83,34 @@ export default function CadastroPetModal() {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-3">
+              <div className="space-y-2">
+                {/* <Popover>
+                  <PopoverTrigger asChild>
+                    <Button
+                      name="dataNascimento"
+                      id="dataNascimento"
+                      variant={"outline"}
+                      className={cn(
+                        "w-[280px] justify-start text-left font-normal",
+                        !date && "text-muted-foreground"
+                      )}
+                    >
+                      <CalendarIcon />
+                      {date ? format(date, "PPP") : <span>Pick a date</span>}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-0">
+                    <Calendar
+                      id="dataNascimento"
+                      mode="single"
+                      selected={date}
+                      onSelect={setDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover> */}
+                <Input id="dataNascimento" name="dataNascimento" type="date"/>
+              </div>
               <div className="space-y-2">
                 <Label htmlFor="tipoPet">Tipo de Pet</Label>
                 <Select onValueChange={handleSelectChange("tipoPet")} name="tipoPet">
@@ -155,73 +186,35 @@ export default function CadastroPetModal() {
                   <p className="text-xs text-red-500">{errors.tamanho[0]}</p>
                  )}
               </div>
-              {/* <div className="space-y-2">
-                <Label htmlFor="dataNascimento">Data de Nascimento</Label>
-                <div className="relative">
-                  <Button
-                    name="dataNascimento"
-                    type="button"
-                    variant="outline"
-                    className={`w-full justify-start text-left font-normal ${
-                      !pet.dataNascimento && "text-muted-foreground"
-                    }`}
-                    onClick={() => setShowCalendar(!showCalendar)}
-                  >
-                    <CalendarIcon className="mr-2 h-4 w-4" />
-                    {pet.dataNascimento ? (
-                      format(pet.dataNascimento, "PPP")
-                    ) : (
-                      <span>Selecione uma data</span>
-                    )}
-                  </Button>
-                  {showCalendar && (
-                    <Calendar
-                      onChange={handleDateChange}
-                      value={pet.dataNascimento}
-                      className="absolute z-10 mt-2"
-                    />
-                  )}
-                   {errors?.dataNascimento && (
-                      <p className="text-xs text-red-500">{errors.dataNascimento[0]}</p>
+              <div className="flex justify-around">
+                <div className="space-y-2">
+                    <div className="flex items-center gap-x-2">
+                      <Checkbox 
+                       id="vacina" 
+                       name="vacina" 
+                       className="translate-y-0.5" />
+                      <Label htmlFor="vacina">Vacina</Label>
+                    </div>
+
+                    {errors?.vacina && (
+                      <p className="text-xs text-red-500">{errors.vacina[0]}</p>
                     )}
                 </div>
-              </div> */}
-              {/* <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="vacina"
-                  name="vacina"
-                  checked={pet.vacina}
-                  onCheckedChange={handleCheckboxChange("vacina")}
-                />
-                <Label htmlFor="vacina">Vacinado</Label>
-                {errors?.vacina && (
-                      <p className="text-xs text-red-500">{errors.vacina[0]}</p>
-                )}
-              </div> */}
-              {/* <div className="flex items-center space-x-2">
-                <Checkbox
-                  id="castrado"
-                  name="castrado"
-                  checked={pet.castrado}
-                  onCheckedChange={handleCheckboxChange("castrado")}
-                />
-                <Label htmlFor="castrado">Castrado</Label>
-                {errors?.castrado && (
+                <div className="space-y-2">
+                  <div className="flex items-center gap-x-2">
+                    <Checkbox id="castrado" name="castrado"  className="translate-y-0.5" />
+                    <Label htmlFor="castrado">Castrado</Label>
+                  </div>
+
+                    {errors?.castrado && (
                       <p className="text-xs text-red-500">{errors.castrado[0]}</p>
                     )}
-              </div> */}
-              <div className="space-y-2">
-                <Label htmlFor="uidUsuario">UUID</Label>
-                <Input
-                  id="uidUsuario"
-                  name="uidUsuario"
-                  defaultValue={user?.uid}
-                />
-
-                {errors?.foto && (
-                  <p className="text-xs text-red-500">{errors.foto[0]}</p>
-                )}
+                </div>
               </div>
+              <div className="grid w-full max-w-sm items-center gap-1.5">
+                <Label htmlFor="picture">Picture</Label>
+                <Input id="foto" name="foto" type="file" />
+              </div>     
               <Button type="submit" className="w-full" disabled={isPending}>
                 {isPending ? "Cadastrando..." : "Cadastrar Pet"}
               </Button>
